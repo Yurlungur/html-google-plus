@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # Author: Jonah Miller (jonah.maxwell.miller@gmail.com)
-# Time-stamp: <2016-02-21 22:42:51 (jmiller)>
+# Time-stamp: <2016-02-21 22:43:42 (jmiller)>
 
 # imports
 import sys
@@ -119,8 +119,8 @@ def convert_links(post_string):
     links = soup.findAll('a')
     for i,a in enumerate(links):
         post_string = post_string.replace('{}'.format(a),
-                                          '{} [{}]'.format(a.text,i))
-        post_string += '[{}] {}\n'.format(i, a['href'])
+                                          '{} [{}]'.format(a.text,i+1))
+        post_string += '[{}] {}\n'.format(i+1, a['href'])
     post_string += '\n'
     return post_string
 
