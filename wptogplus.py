@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # Author: Jonah Miller (jonah.maxwell.miller@gmail.com)
-# Time-stamp: <2016-02-21 22:33:39 (jmiller)>
+# Time-stamp: <2016-02-21 22:42:51 (jmiller)>
 
 # imports
 import sys
@@ -102,8 +102,8 @@ def convert_lists(post_string):
     for container in list_containers:
         temp = "\n"
         list_items = BeautifulSoup(container).findAll('li')
-        for item in list_items:
-            temp +='* {}\n'.format(item.text)
+        for i,item in enumerate(list_items):
+            temp +='*{}.* {}\n'.format(i+1,item.text)
             soup = BeautifulSoup('{}'.format(item))
             a = soup.find('a')
             temp = temp.replace('{}'.format(a),
@@ -147,9 +147,10 @@ def parse_figure(figure_string):
     open_index = figure_string.find('</a>')
     figure_string = figure_string[open_index+4:]
     figure_string.lstrip().rstrip()
-    figure_string = figure_string.replace('{}'.format(avals[1]),
-                                          '{}'.format(avals[1].text))
-    figure_string += ' {}'.format(avals[1]['href'])
+    for i in range(1,len(avals)):
+        figure_string = figure_string.replace('{}'.format(avals[i]),
+                                              '{}'.format(avals[i].text))
+        figure_string += ' {}'.format(avals[i]['href'])
     return figure_string
 
 if __name__ == "__main__":
