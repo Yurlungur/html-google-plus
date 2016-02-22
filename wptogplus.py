@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # Author: Jonah Miller (jonah.maxwell.miller@gmail.com)
-# Time-stamp: <2016-02-21 22:43:42 (jmiller)>
+# Time-stamp: <2016-02-21 22:48:08 (jmiller)>
 
 # imports
 import sys
@@ -156,6 +156,8 @@ def parse_figure(figure_string):
 if __name__ == "__main__":
     post_string = get_post_string(sys.argv[1])
     figures,post_string = parse_post_string(post_string)
+    print(SEPARATOR)
+    print('\n')
     for figure in figures:
         t = '{}'.format(figure)
         t = parse_figure(t)
