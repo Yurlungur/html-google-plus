@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # Author: Jonah Miller (jonah.maxwell.miller@gmail.com)
-# Time-stamp: <2016-02-21 22:48:08 (jmiller)>
+# Time-stamp: <2016-03-06 11:29:22 (jmiller)>
 
 # imports
 import sys
@@ -12,6 +12,7 @@ from bs4 import BeautifulSoup
 # String patterns
 CAPTION_START=r'\[caption id='
 CAPTION_END=r'\[/caption\]'
+DASHES = ['--','---']
 CAPTION_RE = re.compile(CAPTION_START+r'.+?'+CAPTION_END)
 BEGIN_BOLD_RE=re.compile(r'\S<strong>')
 END_BOLD_RE=re.compile(r'</strong>\S')
@@ -63,6 +64,12 @@ def sanitize_string_whitespace(post_string):
     post_string = post_string.replace('</strong>,',',</strong>')
     post_string = post_string.replace('\n\n<h2>','\n<h2>')
     post_string = post_string.replace('</h2>\n\n','</h2>\n')
+    return post_string
+
+def sanitize_dashes(post_string):
+    "Google+ can't handle dashes. Remove them and replace them with spaces."
+    for d in DASHES:
+        post_string = post_string.replace(d,', ')
     return post_string
 
 def fix_bold_italics_ambiguity(post_string):
@@ -127,6 +134,7 @@ def convert_links(post_string):
 def parse_post_string(post_string):
     figures,post_string = get_figures(post_string)
     post_string = sanitize_paragraphs(post_string)
+    post_string = sanitize_dashes(post_string)
     post_string = sanitize_string_whitespace(post_string)
     post_string = fix_bold_italics_ambiguity(post_string)
     post_string = convert_headers(post_string)
